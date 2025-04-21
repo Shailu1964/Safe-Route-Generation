@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeRoute - Route Map</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-bottom: 2rem;
+        }
+        .navbar {
+            background-color: #343a40;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff !important;
+        }
+        .map-container {
+            position: relative;
+            height: 70vh;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #map-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .route-controls {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        .route-controls .form-check {
+            margin-bottom: 0.5rem;
+        }
+        .route-stats {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .stats-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #343a40;
+            font-weight: 600;
+        }
+        .stat-card {
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        .stat-card.fastest {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1976d2;
+        }
+        .stat-card.safest {
+            background-color: #e8f5e9;
+            border-left: 4px solid #43a047;
+        }
+        .stat-card.optimized {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        .route-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .btn-back {
+            margin-bottom: 1rem;
+        }
+        .safety-high {
+            color: #43a047;
+            font-weight: bold;
+        }
+        .safety-medium {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .safety-low {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .flash-messages {
+            margin-top: 1rem;
+        }
+        .loader {
+            display: none;
+            margin: 0 auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .route-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .journey-details {
+            background-color: #f1f8e9;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #689f38;
+        }
+        .journey-title {
+            color: #33691e;
+            font-weight: 600;
+        }
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 50vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-route me-2"></i>SafeRoute</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-map me-1"></i> Map</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Flash Messages -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        
+        <a href="/" class="btn btn-outline-secondary btn-back mb-3">
+            <i class="fas fa-arrow-left me-2"></i>Back to Route Selection
+        </a>
+
+        <div class="journey-details">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="journey-title mb-2"><i class="fas fa-map-marked-alt me-2"></i>Your Journey</h5>
+                    <p class="mb-0">
+                        <strong>From:</strong> {{ start_place }}<br>
+                        <strong>To:</strong> {{ end_place }}
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small class="text-muted">Routes calculated based on current conditions and crime data</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="map-container">
+                    <iframe id="map-frame" src="{{ map_file }}"></iframe>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="route-controls">
+                    <h5 class="mb-3">Map Controls</h5>
+                    <form id="controlForm" action="/update_map" method="post" onsubmit="showLoader()">
+                        <div class="mb-3">
+                            <label class="route-label">Select Route Type</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="route_type" id="routeAll" value="all" {% if route_type == 'all' %}checked{% endif %}>
+                                <label class="form-check-label" for="routeAll">
+                                    <i class="fas fa-layer-group text-secondary me-1"></i> Show All Routes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="route_type" id="routeFastest" value="fastest" {% if route_type == 'fastest' %}checked{% endif %}>
+                                <label class="form-check-label" for="routeFastest">
+                                    <i class="fas fa-tachometer-alt text-primary me-1"></i> Fastest Route
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="route_type" id="routeSafest" value="safest" {% if route_type == 'safest' %}checked{% endif %}>
+                                <label class="form-check-label" for="routeSafest">
+                                    <i class="fas fa-shield-alt text-success me-1"></i> Safest Route
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="route_type" id="routeOptimized" value="optimized" {% if route_type == 'optimized' %}checked{% endif %}>
+                                <label class="form-check-label" for="routeOptimized">
+                                    <i class="fas fa-balance-scale text-warning me-1"></i> Optimized Route
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="route-label">Crime Heatmap</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="heatmapToggle" name="heatmap" value="yes" {% if heatmap == 'yes' %}checked{% endif %}>
+                                <label class="form-check-label" for="heatmapToggle">
+                                    Show Crime Intensity
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                Update Map
+                            </button>
+                            <div id="loader" class="loader mt-2"></div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="route-stats">
+                    <h5 class="stats-title"><i class="fas fa-chart-line me-2"></i>Route Comparison</h5>
+                    
+                    {% if 'Fastest' in route_stats %}
+                    <div class="stat-card fastest">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-tachometer-alt route-icon text-primary"></i>
+                            <h6 class="mb-0">Fastest Route</h6>
+                        </div>
+                        <div>
+                            <p class="mb-1"><strong>Distance:</strong> {{ "%.2f"|format(route_stats['Fastest']['distance']) }} km</p>
+                            <p class="mb-0">
+                                <strong>Safety Level:</strong> 
+                                <span class="{% if route_stats['Fastest']['safety_level'] == 'High' %}safety-high{% elif route_stats['Fastest']['safety_level'] == 'Medium' %}safety-medium{% else %}safety-low{% endif %}">
+                                    {{ route_stats['Fastest']['safety_level'] }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if 'Safest' in route_stats %}
+                    <div class="stat-card safest">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-shield-alt route-icon text-success"></i>
+                            <h6 class="mb-0">Safest Route</h6>
+                        </div>
+                        <div>
+                            <p class="mb-1"><strong>Distance:</strong> {{ "%.2f"|format(route_stats['Safest']['distance']) }} km</p>
+                            <p class="mb-0">
+                                <strong>Safety Level:</strong> 
+                                <span class="{% if route_stats['Safest']['safety_level'] == 'High' %}safety-high{% elif route_stats['Safest']['safety_level'] == 'Medium' %}safety-medium{% else %}safety-low{% endif %}">
+                                    {{ route_stats['Safest']['safety_level'] }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if 'Optimized' in route_stats %}
+                    <div class="stat-card optimized">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-balance-scale route-icon text-warning"></i>
+                            <h6 class="mb-0">Optimized Route</h6>
+                        </div>
+                        <div>
+                            <p class="mb-1"><strong>Distance:</strong> {{ "%.2f"|format(route_stats['Optimized']['distance']) }} km</p>
+                            <p class="mb-0">
+                                <strong>Safety Level:</strong> 
+                                <span class="{% if route_stats['Optimized']['safety_level'] == 'High' %}safety-high{% elif route_stats['Optimized']['safety_level'] == 'Medium' %}safety-medium{% else %}safety-low{% endif %}">
+                                    {{ route_stats['Optimized']['safety_level'] }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Safety levels are based on predicted crime severity</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Tips for a Safe Journey</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i class="fas fa-bell text-primary" style="font-size: 24px;"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Stay Alert</h6>
+                                        <p class="mb-0 small">Be aware of your surroundings at all times and avoid distractions like phones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i class="fas fa-lightbulb text-warning" style="font-size: 24px;"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Well-lit Areas</h6>
+                                        <p class="mb-0 small">Stick to well-lit paths and busy areas, especially during night time.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <i class="fas fa-users text-success" style="font-size: 24px;"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Travel Together</h6>
+                                        <p class="mb-0 small">When possible, travel with a friend or in groups for added safety.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light mt-5 py-3">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 SafeRoute. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showLoader() {
+            document.getElementById('loader').style.display = 'block';
+            return true;
+        }
+        
+        // Add event listeners for form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-submit form when radio buttons are changed
+            const radioButtons = document.querySelectorAll('input[name="route_type"]');
+            radioButtons.forEach(button => {
+                button.addEventListener('change', function() {
+                    showLoader();
+                    document.getElementById('controlForm').submit();
+                });
+            });
+            
+            // Auto-submit form when heatmap toggle is changed
+            document.getElementById('heatmapToggle').addEventListener('change', function() {
+                showLoader();
+                document.getElementById('controlForm').submit();
+            });
+        });
+    </script>
+</body>
+</html>

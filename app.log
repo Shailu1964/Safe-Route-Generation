@@ -1,0 +1,62 @@
+2025-04-08 22:50:42,561 - app - ERROR - OpenCage API key not found in environment variables!
+2025-04-08 22:50:42,586 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-08 22:50:42,587 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-08 22:50:50,553 - werkzeug - INFO - 127.0.0.1 - - [08/Apr/2025 22:50:50] "GET / HTTP/1.1" 200 -
+2025-04-08 22:54:04,211 - werkzeug - INFO - 127.0.0.1 - - [08/Apr/2025 22:54:04] "POST /generate_routes HTTP/1.1" 200 -
+2025-04-08 22:54:04,491 - werkzeug - INFO - 127.0.0.1 - - [08/Apr/2025 22:54:04] "GET /static/map/routes_map_702106e2-3b20-4d9d-80ea-b12b64157e6b.html HTTP/1.1" 200 -
+2025-04-08 22:56:43,181 - werkzeug - INFO - 127.0.0.1 - - [08/Apr/2025 22:56:43] "GET / HTTP/1.1" 200 -
+2025-04-08 22:56:52,251 - werkzeug - INFO - 127.0.0.1 - - [08/Apr/2025 22:56:52] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 02:06:29,746 - app - ERROR - OpenCage API key not found in environment variables!
+2025-04-09 02:06:29,753 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-09 02:06:29,753 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-09 02:06:40,101 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:06:40] "GET / HTTP/1.1" 200 -
+2025-04-09 02:06:40,480 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:06:40] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-09 02:08:32,166 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:08:32] "POST /generate_routes HTTP/1.1" 200 -
+2025-04-09 02:08:32,555 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:08:32] "GET /static/map/routes_map_8ef094e9-f634-4c7e-9d75-2ad9ed3fae4a.html HTTP/1.1" 200 -
+2025-04-09 02:09:14,411 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:09:14] "GET / HTTP/1.1" 200 -
+2025-04-09 02:11:03,261 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:11:03] "POST /generate_routes HTTP/1.1" 200 -
+2025-04-09 02:11:03,443 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 02:11:03] "GET /static/map/routes_map_8ef094e9-f634-4c7e-9d75-2ad9ed3fae4a.html HTTP/1.1" 200 -
+2025-04-09 10:32:30,839 - app - ERROR - OpenCage API key not found in environment variables!
+2025-04-09 10:32:30,867 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-09 10:32:30,867 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-09 10:32:41,066 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:32:41] "GET / HTTP/1.1" 200 -
+2025-04-09 10:32:41,214 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:32:41] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-09 10:32:52,412 - backoff - INFO - Backing off _opencage_request(...) for 0.5s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:32:53,018 - backoff - INFO - Backing off _opencage_request(...) for 1.1s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:32:54,215 - backoff - INFO - Backing off _opencage_request(...) for 3.4s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:32:57,857 - backoff - INFO - Backing off _opencage_request(...) for 1.9s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:32:59,882 - backoff - ERROR - Giving up _opencage_request(...) after 5 tries (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:32:59,884 - app - ERROR - Geocoding error: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=katraj&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)')))
+2025-04-09 10:32:59,986 - backoff - INFO - Backing off _opencage_request(...) for 0.8s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:33:01,002 - backoff - INFO - Backing off _opencage_request(...) for 0.6s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:33:01,739 - backoff - INFO - Backing off _opencage_request(...) for 3.1s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:33:05,020 - backoff - INFO - Backing off _opencage_request(...) for 0.0s (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:33:05,107 - backoff - ERROR - Giving up _opencage_request(...) after 5 tries (requests.exceptions.SSLError: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)'))))
+2025-04-09 10:33:05,108 - app - ERROR - Geocoding error: HTTPSConnectionPool(host='api.opencagedata.com', port=443): Max retries exceeded with url: /geocode/v1/json?q=bibwewadi&key=5fab302a78434c22b7424b380952c6cd (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1002)')))
+2025-04-09 10:33:05,112 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:33:05] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-04-09 10:33:05,147 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:33:05] "GET / HTTP/1.1" 200 -
+2025-04-09 10:35:23,987 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:35:23] "POST /generate_routes HTTP/1.1" 200 -
+2025-04-09 10:35:24,303 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:35:24] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 10:37:12,799 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:37:12] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 10:37:12,955 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:37:12] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 10:38:09,894 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:38:09] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 10:38:10,012 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:38:10] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 10:41:50,995 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:41:50] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 10:41:51,183 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:41:51] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 10:44:19,323 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:44:19] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 10:44:19,620 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:44:19] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 10:45:14,122 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 10:45:14] "GET / HTTP/1.1" 200 -
+2025-04-09 11:05:58,052 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:05:58] "POST /generate_routes HTTP/1.1" 200 -
+2025-04-09 11:05:58,298 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:05:58] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 11:07:14,972 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:07:14] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 11:07:15,226 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:07:15] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 11:23:38,721 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:23:38] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 11:23:39,330 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:23:39] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 11:27:33,300 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:27:33] "POST /update_map HTTP/1.1" 200 -
+2025-04-09 11:27:33,585 - werkzeug - INFO - 127.0.0.1 - - [09/Apr/2025 11:27:33] "GET /static/map/routes_map_51e4e7f0-0ecf-4a84-bad5-ab8a8d4cf2ae.html HTTP/1.1" 200 -
+2025-04-09 11:48:13,421 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-09 11:48:13,422 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
