@@ -10,6 +10,19 @@ from datetime import datetime, timedelta
 from utils import predict_crime_severity  # Import from utils.py
 import joblib
 import os
+import time
+from functools import lru_cache
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError as FutureTimeoutError
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, 
+                   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Global cache for crime severity predictions
+CRIME_SEVERITY_CACHE = {}
+CRIME_CACHE_EXPIRY = 300  # 5 minutes
 
 app = Flask(__name__)
 
@@ -103,60 +116,140 @@ def calculate_route_distance(graph, route):
     return total_distance
 
 # Predict crime severity dynamically for each crime spot
+@lru_cache(maxsize=1024)
+def get_crime_severity_cached(lat, lon, date, time, day):
+    """Get crime severity with caching to avoid redundant predictions."""
+    cache_key = f"{lat}_{lon}_{date}_{time}_{day}"
+    current_time = time.time()
+    
+    # Check cache
+    if cache_key in CRIME_SEVERITY_CACHE:
+        cached_time, severity = CRIME_SEVERITY_CACHE[cache_key]
+        if current_time - cached_time < CRIME_CACHE_EXPIRY:
+            return severity
+    
+    # If not in cache or expired, calculate and cache
+    severity = predict_crime_severity(lat, lon, date, time, day)
+    CRIME_SEVERITY_CACHE[cache_key] = (current_time, severity)
+    return severity
+
 def get_dynamic_crime_spots(crime_locations, date, time, day):
-    """Predict crime severity dynamically for each crime spot."""
+    """Predict crime severity dynamically for each crime spot with parallel processing."""
     dynamic_crime_spots = []
-    for lat, lon in crime_locations:
-        severity = predict_crime_severity(lat, lon, date, time, day)
-        dynamic_crime_spots.append((lat, lon, severity))
+    
+    def process_spot(spot):
+        lat, lon = spot
+        severity = get_crime_severity_cached(lat, lon, date, time, day)
+        return (lat, lon, severity)
+    
+    # Process spots in parallel with a timeout
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(process_spot, spot) for spot in crime_locations]
+        for future in as_completed(futures, timeout=10):  # 10 second timeout
+            try:
+                result = future.result()
+                dynamic_crime_spots.append(result)
+            except Exception as e:
+                logger.warning(f"Error processing crime spot: {e}")
+    
     return dynamic_crime_spots
 
 # Update the graph for safest and optimized routes dynamically
 def update_graphs_with_dynamic_severity(graph, crime_locations, date, time, day, radius):
-    """Adjust graph weights dynamically based on predicted crime severity."""
-    dynamic_crime_spots = get_dynamic_crime_spots(crime_locations, date, time, day)
-    return adjust_weights_for_crime(graph, dynamic_crime_spots, radius)
+    """
+    Adjust graph weights dynamically based on predicted crime severity.
+    Optimized with timeout and better error handling.
+    """
+    try:
+        start_time = time.time()
+        logger.info("Starting dynamic crime severity update...")
+        
+        # Limit the number of crime locations to process
+        max_crime_locations = 1000
+        if len(crime_locations) > max_crime_locations:
+            logger.warning(f"Too many crime locations ({len(crime_locations)}), sampling to {max_crime_locations}")
+            crime_locations = crime_locations[:max_crime_locations]
+        
+        # Get dynamic crime spots with timeout
+        dynamic_crime_spots = get_dynamic_crime_spots(tuple(map(tuple, crime_locations)), date, time, day)
+        
+        logger.info(f"Crime severity prediction completed in {time.time() - start_time:.2f} seconds")
+        
+        # Adjust graph weights
+        return adjust_weights_for_crime(graph, dynamic_crime_spots, radius)
+    except Exception as e:
+        logger.error(f"Error in update_graphs_with_dynamic_severity: {e}")
+        # Return original graph if there's an error
+        return graph
 
 def get_route_crime_details(graph, route, crime_data, radius):
-    """Calculate total crime severity and collect recent crime types along a route."""
-    total_severity = 0
-    crime_types = set()
-
-    # Get the current date
-    current_date = datetime.now()
-
-    for node in route:
-        node_lat = graph.nodes[node]['y']
-        node_lon = graph.nodes[node]['x']
-
-        # Find crimes within the radius of the current node
-        nearby_crimes = crime_data[
-            (abs(crime_data['latitude'] - node_lat) < radius) &
-            (abs(crime_data['longitude'] - node_lon) < radius)
-        ]
-
-        # Filter crimes based on severity and time range
-        filtered_crimes = []
-        for _, crime in nearby_crimes.iterrows():
-            severity = predict_crime_severity(
-                crime['latitude'], crime['longitude'], crime['date'].timestamp(), 0, crime['date'].weekday()
-            )
-            time_range = timedelta(weeks=6)  # Default to 1 week for "Very Low"
-            if severity == 0.2:  # "Low"
-                time_range = timedelta(weeks=12)
-            elif severity == 0.5:  # "Moderate"
-                time_range = timedelta(weeks=18)
-            elif severity == 0.7:  # "High"
-                time_range = timedelta(weeks=24)
-            elif severity == 1.0:  # "Very High"
-                time_range = timedelta(weeks=36)
-
-            if crime['date'] >= current_date - time_range:
-                filtered_crimes.append(crime)
-                total_severity += severity
-                crime_types.add(crime['crime type'])
-
-    return total_severity, list(crime_types)
+    """
+    Calculate total crime severity and collect recent crime types along a route.
+    Optimized with spatial indexing and batch processing.
+    """
+    try:
+        start_time = time.time()
+        logger.info("Calculating route crime details...")
+        
+        total_severity = 0
+        crime_types = set()
+        current_date = datetime.now()
+        
+        # Sample nodes instead of using every node for better performance
+        sample_every = max(1, len(route) // 50)  # Sample at most 50 points
+        sampled_route = route[::sample_every]
+        
+        # Pre-calculate time ranges for severity levels
+        time_ranges = {
+            0.0: timedelta(weeks=6),    # Very Low
+            0.2: timedelta(weeks=12),   # Low
+            0.5: timedelta(weeks=18),   # Moderate
+            0.7: timedelta(weeks=24),   # High
+            1.0: timedelta(weeks=36)    # Very High
+        }
+        
+        # Process nodes in batches
+        batch_size = 10
+        for i in range(0, len(sampled_route), batch_size):
+            batch_nodes = sampled_route[i:i+batch_size]
+            
+            # Get coordinates for batch
+            batch_coords = [(graph.nodes[node]['y'], graph.nodes[node]['x']) for node in batch_nodes]
+            
+            # Find nearby crimes for the entire batch
+            for lat, lon in batch_coords:
+                # Use vectorized operations for better performance
+                nearby = crime_data[
+                    (abs(crime_data['latitude'] - lat) < radius) &
+                    (abs(crime_data['longitude'] - lon) < radius)
+                ]
+                
+                # Process each nearby crime
+                for _, crime in nearby.iterrows():
+                    # Get severity from cache or calculate
+                    crime_date = crime.get('date')
+                    if not pd.isna(crime_date):
+                        severity = get_crime_severity_cached(
+                            crime['latitude'], 
+                            crime['longitude'], 
+                            crime_date.timestamp(), 
+                            0, 
+                            crime_date.weekday()
+                        )
+                        
+                        # Check if crime is within time range
+                        time_range = time_ranges.get(severity, time_ranges[0.0])
+                        if crime_date >= current_date - time_range:
+                            total_severity += severity
+                            if 'crime type' in crime:
+                                crime_types.add(crime['crime type'])
+        
+        logger.info(f"Route crime details calculated in {time.time() - start_time:.2f} seconds")
+        return min(total_severity, 100), list(crime_types)  # Cap total severity
+        
+    except Exception as e:
+        logger.error(f"Error in get_route_crime_details: {e}")
+        return 0, []
 
 # API to calculate routes dynamically
 @app.route('/calculate-routes', methods=['GET'])

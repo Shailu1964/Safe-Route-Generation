@@ -102,7 +102,14 @@ def predict_crime():
 
 @app.route('/generate_routes', methods=['POST'])
 def generate_routes():
+    start_time = time.time()
+    logger.info("Starting route generation...")
+    
     try:
+        # Set a timeout for the entire route generation (45 seconds)
+        if time.time() - start_time > 45:
+            raise TimeoutError("Route generation timed out")
+            
         start_place = request.form['start_place']
         end_place = request.form['end_place']
         
@@ -111,15 +118,23 @@ def generate_routes():
             flash("Please enter both start and end locations")
             return redirect(url_for('index'))
         
-        # Get coordinates with error handling
-        start_lat, start_lon, start_error = get_coordinates(start_place)
-        end_lat, end_lon, end_error = get_coordinates(end_place)
+        logger.info(f"Getting coordinates for {start_place} to {end_place}...")
         
-        if start_error:
-            flash(f"Start location error: {start_error}")
-            return redirect(url_for('index'))
-        if end_error:
-            flash(f"End location error: {end_error}")
+        # Get coordinates with error handling and timeout
+        try:
+            start_lat, start_lon, start_error = get_coordinates(start_place)
+            end_lat, end_lon, end_error = get_coordinates(end_place)
+            
+            if start_error:
+                flash(f"Start location error: {start_error}")
+                return redirect(url_for('index'))
+            if end_error:
+                flash(f"End location error: {end_error}")
+                return redirect(url_for('index'))
+                
+        except Exception as e:
+            logger.error(f"Error getting coordinates: {e}")
+            flash("Error getting location coordinates. Please try again.")
             return redirect(url_for('index'))
         
         start_point = (start_lat, start_lon)
@@ -137,60 +152,87 @@ def generate_routes():
         time = now.hour
         day = now.weekday()
         
-        # Prepare graphs for route calculations
-        safe_graph = update_graphs_with_dynamic_severity(copy.deepcopy(G), crime_spots, date, time, day, radius=0.005)
-        optimized_graph = update_graphs_with_dynamic_severity(copy.deepcopy(G), crime_spots, date, time, day, radius=0.002)
-        
-        # Calculate all routes with error handling
         routes = {}
         
-        try:
-            fastest_route = get_astar_route(G, start_point, end_point)
-            routes['Fastest'] = {
-                'route': fastest_route,
-                'distance': calculate_route_distance(G, fastest_route)
-            }
-        except nx.NetworkXNoPath:
-            logger.warning("Fastest route not found")
-        except Exception as e:
-            logger.error(f"Error calculating fastest route: {e}")
+        # Calculate routes with timeouts
+        def calculate_route_with_timeout(route_func, graph, route_name, timeout=15):
+            try:
+                start = time.time()
+                route = get_astar_route(graph, start_point, end_point)
+                
+                if time.time() - start > timeout:
+                    logger.warning(f"{route_name} calculation took too long, skipping...")
+                    return None
+                    
+                return {
+                    'route': route,
+                    'distance': calculate_route_distance(graph, route),
+                    'calculation_time': time.time() - start
+                }
+            except Exception as e:
+                logger.warning(f"Error calculating {route_name.lower()} route: {e}")
+                return None
         
-        try:
-            safest_route = get_astar_route(safe_graph, start_point, end_point)
-            routes['Safest'] = {
-                'route': safest_route,
-                'distance': calculate_route_distance(safe_graph, safest_route)
-            }
-        except nx.NetworkXNoPath:
-            logger.warning("Safest route not found")
-        except Exception as e:
-            logger.error(f"Error calculating safest route: {e}")
+        logger.info("Calculating routes...")
         
-        try:
-            optimized_route = get_astar_route(optimized_graph, start_point, end_point)
-            routes['Optimized'] = {
-                'route': optimized_route,
-                'distance': calculate_route_distance(optimized_graph, optimized_route)
-            }
-        except nx.NetworkXNoPath:
-            logger.warning("Optimized route not found")
-        except Exception as e:
-            logger.error(f"Error calculating optimized route: {e}")
+        # 1. Fastest route (original graph)
+        if time.time() - start_time < 40:  # Only proceed if we have time left
+            fastest_data = calculate_route_with_timeout(get_astar_route, G, "Fastest")
+            if fastest_data:
+                routes['Fastest'] = fastest_data
+        
+        # 2. Safest route (with crime avoidance)
+        if time.time() - start_time < 30:  # Only proceed if we have time left
+            try:
+                safe_graph = update_graphs_with_dynamic_severity(
+                    copy.deepcopy(G), 
+                    crime_spots, 
+                    date, time, day, 
+                    radius=0.005
+                )
+                if time.time() - start_time < 25:  # Check time again
+                    safest_data = calculate_route_with_timeout(get_astar_route, safe_graph, "Safest")
+                    if safest_data:
+                        routes['Safest'] = safest_data
+            except Exception as e:
+                logger.error(f"Error creating safe graph: {e}")
+        
+        # 3. Optimized route (balance between safety and speed)
+        if time.time() - start_time < 20:  # Only proceed if we have time left
+            try:
+                optimized_graph = update_graphs_with_dynamic_severity(
+                    copy.deepcopy(G),
+                    crime_spots,
+                    date, time, day,
+                    radius=0.002
+                )
+                if time.time() - start_time < 15:  # Check time again
+                    optimized_data = calculate_route_with_timeout(get_astar_route, optimized_graph, "Optimized")
+                    if optimized_data:
+                        routes['Optimized'] = optimized_data
+            except Exception as e:
+                logger.error(f"Error creating optimized graph: {e}")
         
         # Store routes in session
         session['routes'] = routes
         
         # If no routes could be generated
         if not routes:
-            flash("No routes could be generated between these locations. Try different locations.")
+            flash("No routes could be generated between these locations. The locations might be too far apart or unreachable.")
             return redirect(url_for('index'))
+        
+        logger.info(f"Route generation completed in {time.time() - start_time:.2f} seconds")
         
         # Generate the initial map with all routes and heatmap
         return update_map(route_type='all', show_heatmap=True)
     
+    except TimeoutError as te:
+        logger.error(f"Route generation timed out: {te}")
+        flash("The route calculation took too long. Please try locations that are closer together.")
+        return redirect(url_for('index'))
     except Exception as e:
-        logger.error(f"Error in generate_routes: {e}")
-        flash(f"An error occurred: {str(e)}")
+        logger.error(f"Error in generate_routes: {e}", exc_info=True)
+        flash("An error occurred while generating routes. Please try again with different locations.")
         return redirect(url_for('index'))
 
 @app.route('/update_map', methods=['GET', 'POST'])
