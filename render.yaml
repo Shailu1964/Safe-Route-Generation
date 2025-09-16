@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: smart-navigation-system
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -c gunicorn_config.py app:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OPENCAGE_API_KEY
+        sync: false  # You'll need to set this in the Render dashboard
+    plan: free
+    autoDeploy: true
