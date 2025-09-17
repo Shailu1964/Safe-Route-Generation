@@ -366,3 +366,19 @@ KeyError: 'precomputed_severity'
 2025-09-17 14:59:12,261 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:12] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
 2025-09-17 14:59:14,546 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:14] "POST /update_map HTTP/1.1" 200 -
 2025-09-17 14:59:14,666 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:14] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 15:18:03,918 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 15:18:12,305 - __main__ - INFO - All data loaded successfully.
+2025-09-17 15:18:12,321 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 15:18:15,377 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 15:18:22,653 - __main__ - INFO - All data loaded successfully.
+2025-09-17 15:18:22,663 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 15:18:22,668 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 15:18:22,853 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 15:18:22,853 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 15:18:28,546 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:18:28] "GET / HTTP/1.1" 200 -
+2025-09-17 15:18:42,827 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:18:42] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 15:18:43,011 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:18:43] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 15:18:50,473 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:18:50] "GET / HTTP/1.1" 200 -
+2025-09-17 15:19:01,806 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:19:01] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 15:19:01,925 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 15:19:01] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
