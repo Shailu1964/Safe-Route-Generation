@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 import os
 import folium
 from folium.plugins import HeatMap, Fullscreen, LocateControl
@@ -8,8 +8,6 @@ import networkx as nx
 import joblib
 import pandas as pd
 from datetime import datetime
-from utils import predict_crime_severity
-import copy
 import uuid
 import logging
 from dotenv import load_dotenv
@@ -24,7 +22,7 @@ app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 OPENCAGE_API_KEY = os.environ.get('OPENCAGE_API_KEY', '5fab302a78434c22b7424b380952c6cd')
 geocoder = OpenCageGeocode(OPENCAGE_API_KEY)
 
-# --- FINALIZED DATA LOADING ---
+# --- FINAL, LIGHTWEIGHT DATA LOADING ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 G, safe_graph, optimized_graph, crime_data, heatmap_data = None, None, None, None, None
 
@@ -34,7 +32,6 @@ try:
     safe_graph = joblib.load(os.path.join(BASE_DIR, 'safe_graph.pkl'))
     optimized_graph = joblib.load(os.path.join(BASE_DIR, 'optimized_graph.pkl'))
     crime_data = joblib.load(os.path.join(BASE_DIR, 'preprocessed_Pune_crime_data.pkl'))
-    # Load the new heatmap data
     heatmap_data = joblib.load(os.path.join(BASE_DIR, 'heatmap_data.pkl'))
     
     crime_data.columns = crime_data.columns.str.strip().str.lower()
@@ -45,20 +42,6 @@ except Exception as e:
 # --- END OF DATA LOADING ---
 
 os.makedirs('static/map', exist_ok=True)
-
-# ... (ModelSingleton and get_coordinates functions remain the same) ...
-class ModelSingleton:
-    _instance = None
-    @classmethod
-    def get_instance(cls):
-        if cls._instance is None:
-            try:
-                cls._instance = joblib.load(os.path.join(BASE_DIR, 'crime_severity_model.pkl'))
-                logger.info("Crime severity model loaded successfully")
-            except Exception as e:
-                logger.error(f"Error loading model: {e}")
-                cls._instance = None
-        return cls._instance
 
 def get_coordinates(place_name):
     try:
@@ -76,10 +59,8 @@ def index():
         session['user_id'] = str(uuid.uuid4())
     return render_template('index.html')
 
-
 @app.route('/generate_routes', methods=['POST'])
 def generate_routes():
-    # This function is now very fast and doesn't need changes.
     if not all([G, safe_graph, optimized_graph]):
         flash("Server error: Map data is not available. Please check the server logs.")
         return redirect(url_for('index'))
@@ -159,7 +140,6 @@ def update_map(route_type=None, show_heatmap=None):
         Fullscreen().add_to(pune_map)
         LocateControl().add_to(pune_map)
         
-        # This function doesn't change
         def add_route_to_map(route, graph, color, route_type, distance):
             total_severity, crime_types = get_route_crime_details(graph, route, crime_data, radius=0.005)
             popup_content = f"""<div style="font-family: Arial, sans-serif; padding: 10px; min-width: 200px;"><h4 style="margin-top: 0; color: #333;">{route_type} Route</h4><p><strong>Distance:</strong> {distance / 1000:.2f} km</p><p><strong>Crime Risk Level:</strong> <span style="color: {'red' if total_severity > 10 else 'orange' if total_severity > 5 else 'green'}">{'High' if total_severity > 10 else 'Medium' if total_severity > 5 else 'Low'}</span></p><p><strong>Crime Types:</strong> {', '.join(crime_types) if crime_types else 'None'}</p></div>"""
@@ -177,10 +157,7 @@ def update_map(route_type=None, show_heatmap=None):
         folium.Marker(location=start_point, popup=f"<b>Start:</b> {start_place}", tooltip="Start Location", icon=folium.Icon(color='green', icon='play', prefix='fa')).add_to(pune_map)
         folium.Marker(location=end_point, popup=f"<b>End:</b> {end_place}", tooltip="End Location", icon=folium.Icon(color='red', icon='stop', prefix='fa')).add_to(pune_map)
         
-        # --- HEATMAP OPTIMIZATION ---
         if show_heatmap:
-            # REMOVED: The slow loop that calculated severities.
-            # ADDED: Directly use the pre-computed heatmap_data.
             if heatmap_data:
                 HeatMap(
                     heatmap_data, 
@@ -190,7 +167,6 @@ def update_map(route_type=None, show_heatmap=None):
             
             legend_html = '''<div style="position: fixed; bottom: 50px; right: 50px; width: 180px; height: 90px; border:2px solid grey; z-index:9999; font-size:14px; background-color: white; padding: 10px; border-radius: 5px;"><p style="margin: 0 0 5px 0"><b>Crime Intensity</b></p><div style="display: flex; align-items: center; margin-bottom: 5px;"><div style="width: 20px; height: 20px; background-color: blue; margin-right: 5px;"></div><span>Low</span></div><div style="display: flex; align-items: center; margin-bottom: 5px;"><div style="width: 20px; height: 20px; background-color: yellow; margin-right: 5px;"></div><span>Medium</span></div><div style="display: flex; align-items: center;"><div style="width: 20px; height: 20px; background-color: red; margin-right: 5px;"></div><span>High</span></div></div>'''
             pune_map.get_root().html.add_child(folium.Element(legend_html))
-        # --- END OF OPTIMIZATION ---
         
         user_id = session.get('user_id', 'default')
         map_filename = f"routes_map_{user_id}.html"
