@@ -1,10 +1,9 @@
-# Gunicorn configuration file
-workers = 4
-worker_class = 'sync'
+# Gunicorn configuration file optimized for low-memory environments
+workers = 1
+worker_class = 'gthread'
+threads = 2
 bind = '0.0.0.0:10000'
-timeout = 300  # Increased from 120 to 300 seconds
-worker_connections = 1000
+timeout = 300
 keepalive = 5
-threads = 4
 max_requests = 1000
 max_requests_jitter = 50
