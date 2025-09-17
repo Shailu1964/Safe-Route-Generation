@@ -71,23 +71,6 @@ coverage.xml
 # VS Code
 .vscode/
 
-# Logs
-*.log
-
-# Data and model files
-*.pkl
-*.csv
-
-# Flask cache
-instance/
-.webassets-cache
-
-# Local cache
-cache/
-
-# Static map outputs
-static/map/*.html
-
-# Ignore system files
-.DS_Store
-Thumbs.db
+# Static Analysis
+pylint.d/
+mypy.d/
