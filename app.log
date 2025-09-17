@@ -195,3 +195,174 @@ KeyError: 'date of occurrence'
 2025-09-17 14:12:44,522 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:12:44] "GET / HTTP/1.1" 200 -
 2025-09-17 14:15:05,482 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:15:05] "POST /generate_routes HTTP/1.1" 200 -
 2025-09-17 14:15:05,659 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:15:05] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:33:04,052 - __main__ - INFO - Loading all graphs and crime data...
+2025-09-17 14:33:12,298 - __main__ - ERROR - FATAL: Could not load pre-computed graph files. Run 'precompute_weighted_graphs.py' first. Error: 'date of occurrence'
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'date of occurrence'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\app.py", line 53, in <module>
+    crime_data['date'] = pd.to_datetime(crime_data['date of occurrence'], errors='coerce', dayfirst=True)
+                                        ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\frame.py", line 4107, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'date of occurrence'
+2025-09-17 14:33:12,319 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:33:15,517 - __main__ - INFO - Loading all graphs and crime data...
+2025-09-17 14:33:22,721 - __main__ - ERROR - FATAL: Could not load pre-computed graph files. Run 'precompute_weighted_graphs.py' first. Error: 'date of occurrence'
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'date of occurrence'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\app.py", line 53, in <module>
+    crime_data['date'] = pd.to_datetime(crime_data['date of occurrence'], errors='coerce', dayfirst=True)
+                                        ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\frame.py", line 4107, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'date of occurrence'
+2025-09-17 14:33:22,739 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:33:22,743 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:33:22,931 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:33:22,931 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:33:28,109 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:33:28] "GET / HTTP/1.1" 200 -
+2025-09-17 14:33:29,671 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:33:29] "GET / HTTP/1.1" 200 -
+2025-09-17 14:33:44,178 - __main__ - ERROR - Error in update_map: 'date'
+2025-09-17 14:33:44,181 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:33:44] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:33:44,187 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:33:44] "GET / HTTP/1.1" 200 -
+2025-09-17 14:36:27,043 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\app.py', reloading
+2025-09-17 14:36:29,032 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:36:33,286 - __main__ - INFO - Loading all pre-computed graphs and crime data...
+2025-09-17 14:36:41,771 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:36:41,783 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:36:41,788 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:36:41,982 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:36:41,982 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:36:43,510 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:36:43] "GET / HTTP/1.1" 200 -
+2025-09-17 14:38:16,667 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:38:16] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 14:38:16,845 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:38:16] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:39:42,617 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\precompute_weighted_graphs.py', reloading
+2025-09-17 14:43:43,630 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:43:52,547 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:43:52,570 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:43:55,777 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:44:03,771 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:44:03,790 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:44:03,793 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:44:03,986 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:44:03,986 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:44:07,457 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:44:07] "GET / HTTP/1.1" 200 -
+2025-09-17 14:45:40,510 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:45:40] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 14:45:40,699 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:45:40] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:47:26,747 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:47:26] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:47:26,865 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:47:26] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:47:52,450 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\precompute_weighted_graphs.py', reloading
+2025-09-17 14:47:54,621 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:47:58,855 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:48:07,414 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:48:07,435 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:48:07,440 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:48:07,671 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:48:07,671 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:48:12,858 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\route_calculations.py', reloading
+2025-09-17 14:48:15,088 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:50:20,473 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:50:28,823 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:50:28,841 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:50:31,777 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:50:38,823 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:50:38,833 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:50:38,838 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:50:39,027 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:50:39,027 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:50:41,299 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:50:41] "GET / HTTP/1.1" 200 -
+2025-09-17 14:50:42,641 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:50:42] "GET / HTTP/1.1" 200 -
+2025-09-17 14:51:07,860 - __main__ - ERROR - Error in update_map: 'precomputed_severity'
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'precomputed_severity'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\app.py", line 172, in update_map
+    add_route_to_map(routes[r_type]['route'], G, color, r_type, routes[r_type]['distance'])
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\app.py", line 164, in add_route_to_map
+    total_severity, crime_types = get_route_crime_details(graph, route, crime_data, radius=0.005)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\route_calculations.py", line 98, in get_route_crime_details
+    severity = crime['precomputed_severity']
+               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\series.py", line 1130, in __getitem__
+    return self._get_value(key)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\series.py", line 1246, in _get_value
+    loc = self.index.get_loc(label)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'precomputed_severity'
+2025-09-17 14:51:07,915 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:51:07] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:51:07,925 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:51:07] "GET / HTTP/1.1" 200 -
+2025-09-17 14:57:48,315 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:57:56,074 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:57:56,090 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:58:08,508 - __main__ - INFO - Loading all pre-computed data...
+2025-09-17 14:58:16,361 - __main__ - INFO - All data loaded successfully.
+2025-09-17 14:58:16,374 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:58:16,379 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:58:16,571 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:58:16,572 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:58:17,490 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:17] "GET / HTTP/1.1" 200 -
+2025-09-17 14:58:33,874 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:33] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 14:58:34,064 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:34] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:58:40,387 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:40] "GET / HTTP/1.1" 200 -
+2025-09-17 14:58:52,610 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:52] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 14:58:52,731 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:58:52] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:01,118 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:01] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:01,249 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:01] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:05,126 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:05] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:05,244 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:05] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:07,579 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:07] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:07,695 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:07] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:09,790 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:09] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:09,908 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:09] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:12,121 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:12] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:12,261 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:12] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
+2025-09-17 14:59:14,546 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:14] "POST /update_map HTTP/1.1" 200 -
+2025-09-17 14:59:14,666 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:59:14] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
