@@ -1,112 +1,201 @@
-# Crime Prediction & Safe Navigation System
 
-## Description
-This project is a web-based application designed to help users find the safest routes within Pune city by predicting crime severity and visualizing crime-prone areas. It combines machine learning, real crime datasets, and interactive maps to guide users away from high-risk zones. The system is built with Python and Flask, using data science and mapping libraries for backend processing and visualization.
+# Safe Route Generation: A Smart Navigation System
 
-### How It Works
-1. **Data Collection & Preprocessing:**
-   - Real crime data for Pune is collected and preprocessed for analysis.
-   - Data is cleaned and transformed for use in machine learning models and route calculations.
-2. **Model Training:**
-   - A machine learning model is trained to predict the severity of crime in different areas based on historical data.
-   - The trained model is saved as `crime_severity_model.pkl`.
-3. **Route Generation:**
-   - The city map is represented as a graph, with nodes as locations and edges as possible routes.
-   - Each route is weighted by both distance and predicted crime severity.
-   - The safest route is calculated using graph algorithms, prioritizing low-crime paths.
-4. **Web Application:**
-   - Users enter their source and destination.
-   - The app predicts the safest route and displays it on an interactive map, highlighting crime-prone areas.
-   - Users can view crime statistics and details for their selected route.
+A web-based smart navigation system that generates routes between two points in Pune, India, while considering historical crime data to provide not just the fastest, but also the safest and most optimized travel options.
 
-## Why These Technologies?
-- **Python:** Easy to use for data science, machine learning, and web development.
-- **Flask:** Lightweight web framework, ideal for small to medium applications.
-- **scikit-learn, pandas, numpy:** For data processing and machine learning.
-- **folium, matplotlib:** For map and data visualization.
-- **Jinja2 templates:** For dynamic HTML rendering.
-- **pickle:** For saving/loading trained models and data objects.
+---
 
-## Project Structure
-```
-Crime_Prediction/
-├── app.py                  # Main Flask application
-├── requirements.txt        # Python dependencies
-├── crime_severity_model.pkl# Trained ML model
-├── pune_graph.pkl          # Serialized city graph
-├── *.csv                   # Crime datasets
-├── generate_graph.py       # Script to build the city graph
-├── process.py              # Data preprocessing script
-├── route_calculations.py   # Route finding logic
-├── train.py                # Model training script
-├── utils.py                # Helper functions
-├── static/                 # Images, map outputs
-├── templates/              # HTML templates
-├── cache/                  # Local cache files
-├── .env                    # Environment variables (if needed)
-├── .gitignore              # Git ignore rules
-└── README.md               # Project documentation
-```
+## 🚀 Live Demo
 
-## Installation & Setup
+Access the live deployed application here:  
+👉 [https://safe-route-generation.onrender.com](https://safe-route-generation.onrender.com)
+
+**Note on Performance:**
+- **Slow Initial Load:** The service "spins down" after 15 minutes of inactivity and can take up to a minute to restart on the first visit.
+- **Potential Failures (502 Error):** The free tier has a strict memory limit. Due to the large size of the geographical and crime data, the application may occasionally exceed this limit and restart, leading to a temporary "502 Bad Gateway" error. If you encounter this, please try refreshing after a minute.
+
+---
+
+## ✨ Features
+
+- **Multiple Route Options:** Calculates three distinct routes between any two locations:
+  - **Fastest Route:** The standard, shortest-distance path.
+  - **Safest Route:** A path that actively avoids areas with a high historical incidence of crime.
+  - **Optimized Route:** A balanced option that considers both distance and safety.
+- **Interactive Map:** Displays all three routes on an interactive Folium map for easy comparison.
+- **Crime Heatmap:** Overlays a visual heatmap on the map, showing the relative intensity of crime hotspots across the city.
+- **Detailed Route Analysis:** Provides key statistics for each route, including distance, an estimated crime risk level, and the types of crimes common along the path.
+
+---
+
+## 🛠️ How It Works
+
+The core challenge of this project is the immense computational cost of calculating crime-adjusted routes in real-time. To solve this and ensure a fast user experience, the application uses a pre-computation strategy.
+
+### 1. Offline Data Processing (The "Factory")
+Before deployment, a series of local Python scripts are run to handle the heavy computational work:
+
+- **Graph Generation (`generate_graph.py`):** The road network for Pune is fetched from OpenStreetMap using osmnx and simplified to reduce its memory footprint.
+- **Data Pre-computation (`precompute_weighted_graphs.py`):**
+  - Loads the base road network and the historical crime dataset.
+  - Uses a trained machine learning model (`crime_severity_model.pkl`) to predict the current severity of every known crime location.
+  - Creates and saves multiple versions of the road network graph (`safe_graph.pkl`, `optimized_graph.pkl`) where the "length" of roads near high-crime areas is artificially increased.
+  - Pre-calculates and saves the data for the heatmap (`heatmap_data.pkl`).
+  - Adds a `precomputed_severity` column to the crime data for instant lookups.
+
+### 2. Online Serving (The Live Application)
+The deployed Flask application is designed to be lightweight and fast. It does not perform any heavy calculations.
+
+- **Loading Data:** On startup, the server loads all the pre-computed `.pkl` files into memory.
+- **User Request:** When a user enters a start and end point:
+  - The app uses the pre-weighted graphs to find the safest and optimized routes almost instantly using the A* algorithm.
+  - It uses the pre-computed heatmap data to display the crime intensity overlay.
+  - It uses the pre-computed severity values in the crime data to quickly calculate and display route statistics.
+
+This architecture ensures that the user gets a response in seconds, rather than the many minutes it would take to perform these calculations on every request.
+
+---
+
+## 💻 Technology Stack
+
+- **Backend:** Flask
+- **Geospatial Analysis:** OSMnx, NetworkX, Geopy
+- **Machine Learning:** Scikit-learn, Pandas
+- **Mapping & Visualization:** Folium
+- **Web Server:** Gunicorn
+- **Deployment:** Render
+
+---
+
+## 🔧 Local Development Setup
+
+To run this project on your local machine, follow these steps:
+
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/Shailu1964/Crime_Prediction.git
-   cd Crime_Prediction/Crime_Prediction
+   git clone https://github.com/Shailu1964/Safe-Route-Generation.git
+   cd Safe-Route-Generation
    ```
-2. **Create a virtual environment:**
+2. **Create and activate a virtual environment:**
    ```sh
-   python -m venv venv311
-   venv311\Scripts\activate  # On Windows
-   # or
-   source venv311/bin/activate  # On Mac/Linux
+   # For Windows
+   python -m venv venv
+   venv\Scripts\activate
+
+   # For macOS/Linux
+   python3 -m venv venv
+   source venv/bin/activate
    ```
-3. **Install dependencies:**
+3. **Install the required packages:**
    ```sh
    pip install -r requirements.txt
    ```
-4. **(Optional) Set up environment variables:**
-   - Copy `.env.example` to `.env` and update as needed.
-5. **Run the application:**
+4. **Set up environment variables:**
+   - Create a file named `.env` in the root directory and add your OpenCage Geocoder API key:
+     ```env
+     OPENCAGE_API_KEY="your_api_key_here"
+     ```
+5. **Run the data pre-computation scripts:**
+   This step is essential to generate the necessary `.pkl` files.
    ```sh
-   python app.py
+   python generate_graph.py
+   python precompute_weighted_graphs.py
    ```
-6. **Open your browser:**
-   - Go to `http://localhost:5000`
+6. **Run the Flask application:**
+   ```sh
+   flask run
+   ```
+   The application will be available at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-## Usage
-- Enter your source and destination in the web interface.
-- The app will display the safest route and highlight crime-prone areas on the map.
-- View detailed crime statistics for your route.
+---
 
-## Screenshots
-- ![Home Page](static/images/home_placeholder.png)
-- ![Map View](static/images/map_placeholder.png)
+## ☁️ Deployment
 
-## API/Configuration Details
+This project is configured for continuous deployment on Render using the `render.yaml` file.
+
+1. Push the project to a GitHub repository, ensuring all the essential `.pkl` data files are tracked by Git.
+2. Create a new "Web Service" on Render and connect it to your GitHub repository.
+3. Add your `OPENCAGE_API_KEY` as an environment variable in the Render dashboard.
+4. Render will automatically build and deploy the application based on the instructions in the `render.yaml` and `Procfile`.
+
+---
+
+## 📁 Project Structure
+
+```
+├── app.py                      # Main Flask application file
+├── route_calculations.py       # Core route calculation and geospatial logic
+├── utils.py                    # Utility functions, including crime prediction logic
+├── precompute_weighted_graphs.py # (Local) Script to generate weighted graphs and heatmap data
+├── generate_graph.py           # (Local) Script to create the simplified base map
+├── gunicorn_config.py          # Configuration for the Gunicorn web server
+├── requirements.txt            # Python dependencies
+├── render.yaml                 # Configuration for Render deployment
+├── Procfile                    # Defines the command to start the web server
+├── .gitignore                  # Specifies files for Git to ignore
+├── /templates/                 # HTML templates for the web interface
+├── /static/                    # Static assets (CSS, images)
+├── *.pkl                       # Pre-computed data files essential for the live app
+├── *.csv                       # Crime datasets
+├── process.py                  # Data preprocessing script
+├── train.py                    # Model training script
+├── cache/                      # Local cache files
+└── README.md                   # Project documentation
+```
+
+---
+
+## 🖥️ Usage
+
+1. Enter your source and destination in the web interface.
+2. The app will display the fastest, safest, and optimized routes, highlighting crime-prone areas on the map.
+3. View detailed crime statistics and analysis for your selected route.
+
+---
+
+## 🖼️ Screenshots
+
+> _Add your screenshots here for better visualization_
+
+---
+
+## ⚙️ API/Configuration Details
+
 - **Model & Data Files:**
   - `crime_severity_model.pkl`: Machine learning model for crime prediction.
-  - `pune_graph.pkl`: Graph object for route calculations.
+  - `pune_graph.pkl`, `safe_graph.pkl`, `optimized_graph.pkl`: Graph objects for route calculations.
+  - `heatmap_data.pkl`: Precomputed data for the crime heatmap.
   - CSV files: Contain raw and processed crime data.
 - **Configuration:**
   - Environment variables (API keys, Flask settings) can be set in `.env`.
 
-## Troubleshooting
+---
+
+## 🛠️ Troubleshooting
+
 - If you encounter missing package errors, ensure your virtual environment is activated and all dependencies are installed.
 - For issues with map rendering, check that the `static/map/` directory is writable.
 - Logs are saved in `app.log` for debugging.
+- If you see a 502 error on Render, wait a minute and refresh the page.
 
-## Contributing
+---
+
+## 🤝 Contributing
+
 1. Fork this repository.
 2. Create a new branch: `git checkout -b feature/your-feature`
 3. Make your changes and commit: `git commit -am 'Add new feature'`
 4. Push to your branch: `git push origin feature/your-feature`
 5. Open a Pull Request.
 
-## Contact / Author
+---
+
+## 📬 Contact / Author
+
 - **Author:** Shailu1964
 - **GitHub:** [Shailu1964](https://github.com/Shailu1964)
 - **Email:** yerawad.shailesh@gmail.com
 
 ---
+
 If you have questions or suggestions, feel free to open an issue or contact the author.
