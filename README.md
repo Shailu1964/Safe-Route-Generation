@@ -155,7 +155,13 @@ This project is configured for continuous deployment on Render using the `render
 
 ## 🖼️ Screenshots
 
-> _Add your screenshots here for better visualization_
+> _screenshots for better visualization_
+
+![alt text](image-2.png)
+
+![alt text](image-1.png)
+
+![alt text](image.png)
 
 ---
 
