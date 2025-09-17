@@ -2,7 +2,7 @@
 workers = 4
 worker_class = 'sync'
 bind = '0.0.0.0:10000'
-timeout = 120
+timeout = 300  # Increased from 120 to 300 seconds
 worker_connections = 1000
 keepalive = 5
 threads = 4

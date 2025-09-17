@@ -93,3 +93,105 @@
 2025-09-17 03:21:51,603 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\route_calculations.py', reloading
 2025-09-17 03:21:52,672 - werkzeug - INFO -  * Restarting with stat
 2025-09-17 03:22:57,434 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 04:03:39,746 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 04:03:44,151 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 04:03:44,154 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 04:03:44,308 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 04:03:44,308 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 04:03:49,832 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 04:03:49] "GET / HTTP/1.1" 200 -
+2025-09-17 04:03:50,122 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 04:03:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-17 04:05:48,420 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 04:05:48] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 04:05:48,556 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 04:05:48] "GET /static/map/routes_map_15533cf6-afc3-427b-a8fe-29c7b010b35c.html HTTP/1.1" 200 -
+2025-09-17 14:03:11,241 - __main__ - ERROR - Error loading data: 'date of occurrence'
+2025-09-17 14:03:11,333 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:03:19,680 - __main__ - ERROR - Error loading data: 'date of occurrence'
+2025-09-17 14:03:19,744 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:03:19,762 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:03:19,955 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:03:19,955 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:03:26,075 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:26] "GET / HTTP/1.1" 200 -
+2025-09-17 14:03:26,266 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-17 14:03:35,076 - __main__ - ERROR - Error calculating fastest route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:35,077 - __main__ - ERROR - Error calculating safest route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:35,077 - __main__ - ERROR - Error calculating optimized route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:35,079 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:35] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:03:35,087 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:35] "GET / HTTP/1.1" 200 -
+2025-09-17 14:03:47,777 - __main__ - ERROR - Error calculating fastest route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:47,779 - __main__ - ERROR - Error calculating safest route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:47,779 - __main__ - ERROR - Error calculating optimized route: 'NoneType' object has no attribute 'graph'
+2025-09-17 14:03:47,782 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:47] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:03:47,791 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:03:47] "GET / HTTP/1.1" 200 -
+2025-09-17 14:05:38,110 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\app.py', reloading
+2025-09-17 14:05:39,190 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:05:49,677 - __main__ - ERROR - Error loading data: 'date of occurrence'
+2025-09-17 14:05:49,745 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:05:49,747 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:05:49,960 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:05:49,960 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:05:50,151 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:05:50] "GET / HTTP/1.1" 200 -
+2025-09-17 14:05:55,868 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:05:55] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:05:55,878 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:05:55] "GET / HTTP/1.1" 200 -
+2025-09-17 14:07:59,565 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:07:59] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:07:59,574 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:07:59] "GET / HTTP/1.1" 200 -
+2025-09-17 14:08:18,880 - __main__ - ERROR - Error loading data: 'date of occurrence'
+2025-09-17 14:08:18,953 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:08:27,259 - __main__ - ERROR - Error loading data: 'date of occurrence'
+2025-09-17 14:08:27,333 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:08:27,336 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:08:27,560 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:08:27,560 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:08:30,057 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:08:30] "GET / HTTP/1.1" 200 -
+2025-09-17 14:08:36,638 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:08:36] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:08:36,653 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:08:36] "GET / HTTP/1.1" 200 -
+2025-09-17 14:11:35,665 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\app.py', reloading
+2025-09-17 14:11:36,655 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:11:46,964 - __main__ - ERROR - AN ERROR OCCURRED WHILE LOADING PICKLE FILES: 'date of occurrence'
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'date of occurrence'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\app.py", line 59, in <module>
+    crime_data['date'] = pd.to_datetime(crime_data['date of occurrence'], errors='coerce', dayfirst=True)
+                                        ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\frame.py", line 4107, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shail\Desktop\Smart-Navigation-System\Crime_Prediction\venv311\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
+    raise KeyError(key) from err
+KeyError: 'date of occurrence'
+2025-09-17 14:11:47,119 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:11:47,123 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:11:47,324 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:11:47,324 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:11:51,224 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:11:51] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:11:51,241 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:11:51] "GET / HTTP/1.1" 200 -
+2025-09-17 14:11:55,593 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:11:55] "GET / HTTP/1.1" 200 -
+2025-09-17 14:11:55,798 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:11:55] "GET / HTTP/1.1" 200 -
+2025-09-17 14:11:56,014 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:11:56] "GET / HTTP/1.1" 200 -
+2025-09-17 14:12:00,918 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:12:00] "[32mPOST /generate_routes HTTP/1.1[0m" 302 -
+2025-09-17 14:12:00,931 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:12:00] "GET / HTTP/1.1" 200 -
+2025-09-17 14:12:15,171 - werkzeug - INFO -  * Detected change in 'C:\\Users\\shail\\Desktop\\Smart-Navigation-System\\Crime_Prediction\\app.py', reloading
+2025-09-17 14:12:16,172 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:12:36,570 - werkzeug - INFO -  * Restarting with stat
+2025-09-17 14:12:44,105 - werkzeug - WARNING -  * Debugger is active!
+2025-09-17 14:12:44,109 - werkzeug - INFO -  * Debugger PIN: 872-277-736
+2025-09-17 14:12:44,329 - werkzeug - WARNING -  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2025-09-17 14:12:44,329 - werkzeug - INFO -  * Running on http://192.168.1.30:5000/ (Press CTRL+C to quit)
+2025-09-17 14:12:44,522 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:12:44] "GET / HTTP/1.1" 200 -
+2025-09-17 14:15:05,482 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:15:05] "POST /generate_routes HTTP/1.1" 200 -
+2025-09-17 14:15:05,659 - werkzeug - INFO - 192.168.1.30 - - [17/Sep/2025 14:15:05] "GET /static/map/routes_map_e0b421ec-ff26-4dba-ae4a-b5b7e84ff51f.html HTTP/1.1" 200 -
